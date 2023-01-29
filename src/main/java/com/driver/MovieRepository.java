@@ -18,17 +18,17 @@ public class MovieRepository {
     HashMap<String,Director>dirDb;
     HashMap<String, List<String>>pair;
     public MovieRepository(){
-        moviedb=new HashMap<>();
-        dirDb=new HashMap<>();
-        pair=new HashMap<>();
+        this.moviedb=new HashMap<>();
+        this.dirDb=new HashMap<>();
+        this.pair=new HashMap<>();
     }
-    public String addMovie( Movie movie){
+    public void addMovie( Movie movie){
         moviedb.put(movie.getName(),movie);
-        return "SUCCESS";
+
     }
-    public String addDirector( Director director){
+    public void addDirector( Director director){
         dirDb.put(director.getName(),director);
-        return "SUCCESS";
+
 
     }
     public String addMovieDirectorPair(String movieName, String dirName){
@@ -45,16 +45,13 @@ public class MovieRepository {
         return "ERROR";
     }
     public Movie getMovieByName(String movieName){
-        if (moviedb.containsKey(movieName))
-            moviedb.get(movieName);
-        return null;
+        return moviedb.get(movieName);
+
     }
     public Director getDirectorByName(String dirName){
-        if (dirDb.containsKey(dirName))
-            dirDb.get(dirName);
-        return null;
+        return dirDb.get(dirName);
     }
-    public List getMoviesByDirectorName(@PathVariable("director") String dirName){
+    public List<String> getMoviesByDirectorName(String dirName){
         return pair.get(dirName);
 
     }
@@ -62,12 +59,18 @@ public class MovieRepository {
         return new ArrayList<>(moviedb.keySet());
     }
     public String deleteDirectorByName(String dirname){
-        if (pair.containsKey(dirname)){
+        List<String>movies=new ArrayList<>();
+        if(pair.containsKey(dirname)){
+            movies=pair.get(dirname);
+            for (String movie:movies){
+                if (moviedb.containsKey(movie))
+                    moviedb.remove(movie);
+            }
             pair.remove(dirname);
-            return "SUCCESS";
         }
-        return "ERROR";
-
+        if (dirDb.containsKey(dirname))
+            dirDb.remove(dirname);
+        return "SUCCESS";
     }
     public String deleteAllDirectors(){
         HashSet<String>watchlist=new HashSet<>();

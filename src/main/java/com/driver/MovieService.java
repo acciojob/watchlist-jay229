@@ -14,11 +14,11 @@ import java.util.*;
 public class MovieService {
     @Autowired
     MovieRepository repo;
-    public String addMovie( Movie movie){
-        return repo.addMovie(movie);
+    public void addMovie( Movie movie){
+         repo.addMovie(movie);
     }
-    public String addDirector( Director director){
-        return repo.addDirector(director);
+    public void addDirector( Director director){
+         repo.addDirector(director);
     }
     public String addMovieDirectorPair( String movieName, String dirName){
         return repo.addMovieDirectorPair(movieName,dirName);

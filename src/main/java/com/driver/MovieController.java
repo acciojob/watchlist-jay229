@@ -15,13 +15,13 @@ public class MovieController {
     MovieService mvservice;
     @PostMapping("/add-movie")
     public ResponseEntity addMovie(@RequestBody Movie movie){
-        String response=mvservice.addMovie(movie);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+       mvservice.addMovie(movie);
+        return new ResponseEntity<>("New movie added successfully", HttpStatus.CREATED);
     }
     @PostMapping("/add-director")
     public ResponseEntity addDirector(@RequestBody Director director){
-        String response=mvservice.addDirector(director);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        mvservice.addDirector(director);
+        return new ResponseEntity<>("New director added successfully", HttpStatus.CREATED);
     }
     @PostMapping("add-movie-director-pair")
     public ResponseEntity addMovieDirectorPair(@RequestParam("mvName") String movieName,@RequestParam("dirName") String dirName){
@@ -34,9 +34,8 @@ public class MovieController {
     @GetMapping("get-movie-by-name/{name}")
     public ResponseEntity getMovieByName(@PathVariable("name") String movieName){
         Movie movie=mvservice.getMovieByName(movieName);
-        if (movie!=null)
-            return new ResponseEntity<>(movie,HttpStatus.FOUND);
-        return new ResponseEntity<>("Movie not found",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(movie,HttpStatus.FOUND);
+
     }
     @GetMapping("get-director-by-name/{name}")
     public ResponseEntity getDirectorByName(@PathVariable("name") String dirName){
